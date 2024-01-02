@@ -15,6 +15,7 @@ import {
 export class GoogleService {
   constructor(@Inject(SpreadSheetTag) private spreadsheet: GoogleSpreadsheet) {}
 
+  //Отримуємо дані з усіх листів Гугл таблиці
   public async getAllData(): Promise<IGoogleSheetsResponse> {
     const sheets = this.spreadsheet.sheetsByIndex;
 
@@ -24,11 +25,10 @@ export class GoogleService {
 
     const response = shoes.flat(2);
 
-    // console.log(response);
-
     return response;
   }
 
+  //Дані з одного листа
   public async getData(sheet: GoogleSpreadsheetWorksheet): Promise<IShoes[]> {
     // geting cells with stable text data
 
@@ -67,6 +67,7 @@ export class GoogleService {
     return entities;
   }
 
+  // Заровнення пропусків в масиві розмірів
   private populateArrays(arr: any[][], size: number): any[][] {
     for (let i = 0; i < arr.length; i++) {
       const nestedArray = arr[i];
@@ -81,6 +82,7 @@ export class GoogleService {
     return arr;
   }
 
+  //Сортування сутностей
   private sortEntities(
     propertyValues: string[][],
     mockTitles: string[],
@@ -98,6 +100,7 @@ export class GoogleService {
     return entities;
   }
 
+  //конвертація типів
   private converSizesToNumbers(array: Record<string, string>[]): number[][] {
     const resultArrayOfArrays: number[][] = [];
 
@@ -119,6 +122,7 @@ export class GoogleService {
     return resultArrayOfArrays;
   }
 
+  // формування кінцевих сутностей з гугл таблиці
   private formEntities(
     products: IShoesTextData[],
     sizes: number[][],
@@ -141,6 +145,7 @@ export class GoogleService {
     }
   }
 
+  //перевірка на можливі пусті поля
   private convertToIShoesTextData(
     entities: EntitySheetsItem[],
   ): IShoesTextData[] {
