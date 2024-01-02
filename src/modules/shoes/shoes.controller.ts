@@ -8,6 +8,7 @@ import {
   Delete,
   ParseUUIDPipe,
   Inject,
+  Query,
 } from '@nestjs/common';
 
 import { ApiTags } from '@nestjs/swagger';
@@ -16,6 +17,7 @@ import {
   UpdateShoeDto,
   CreateShoeDto,
   ShoesServiceTag,
+  ShoeFilter,
 } from '@domain';
 
 @ApiTags('Shoes')
@@ -30,14 +32,23 @@ export class ShoesController {
   }
 
   @Get()
-  public async findAll() {
-    return this.shoesService.findAll();
+  public async findAll(@Query() filter?: ShoeFilter) {
+    if (filter.size) {
+      return await this.shoesService.findBySize(filter.size);
+    }
+
+    return await this.shoesService.findAll();
   }
 
   @Get(':id')
   public async findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.shoesService.findOne(id);
   }
+
+  // @Get('/size/getmany')
+  // public async findOneBySize(@Query() filter: ShoeFilter) {
+  //   return await this.shoesService.findOneBySize(filter.size);
+  // }
 
   @Patch(':id')
   public async update(

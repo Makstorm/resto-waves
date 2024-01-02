@@ -8,6 +8,7 @@ import {
 import { ShoesEntity } from './shoe.entity';
 import { SizeEntity } from './size.entity';
 
+//Вручну створена сутність багато-багато, для ручного додавання залежностей
 @Entity({ name: 'shoes_size' })
 export class ShoesSizeEntity {
   @PrimaryColumn('uuid')

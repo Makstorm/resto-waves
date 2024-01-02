@@ -13,12 +13,11 @@ import {
   IGoogleSheetsResponse,
 } from '@domain';
 import { GoogleService } from '../google/google.service';
+import { Cron, CronExpression } from '@nestjs/schedule';
 
+//сервіс для роботи з сутностями взуття
 @Injectable()
 export class ShoesService implements IShoesService {
-  // compareWithDatabase(): Promise<void> {
-  //   throw new Error('Method not implemented.');
-  // }
   @InjectRepository(ShoesEntity)
   private readonly repository: Repository<ShoesEntity>;
   @InjectRepository(ShoesSizeEntity)
@@ -58,6 +57,16 @@ export class ShoesService implements IShoesService {
     return shoes;
   }
 
+  public async findBySize(size: number): Promise<ShoesEntity[]> {
+    const shoes = await this.repository
+      .createQueryBuilder('s')
+      .leftJoinAndSelect('s.sizes', 'sizes')
+      .where('sizes.size = :size', { size })
+      .getMany();
+
+    return shoes;
+  }
+
   public async update(id: string, dto: UpdateShoeDto): Promise<ShoesEntity> {
     await this.repository.update({ id }, { ...dto });
     return await this.findOne(id);
@@ -68,6 +77,9 @@ export class ShoesService implements IShoesService {
     return this.repository.remove(shoesForDelete);
   }
 
+  //метод для додавання та синїронізаціх даних у бд х таблиці
+  //також він викликається раз у 1 годину
+  @Cron(CronExpression.EVERY_HOUR)
   public async compareWithDatabase(): Promise<void> {
     try {
       // Отримання даних з бази даних та Google таблиці
@@ -90,6 +102,7 @@ export class ShoesService implements IShoesService {
     }
   }
 
+  //утилітні методи для методу compareWithDatabase
   private async compareShoesPresence(
     shoesFromDb: ShoesEntity[],
     dataFromGoogleTable: IGoogleSheetsResponse,
@@ -125,6 +138,8 @@ export class ShoesService implements IShoesService {
           price: googleData.price,
           vendorCode: googleData.vendor_code,
           model: googleData.title,
+
+          //Для того щоб відлічити автоматично згенеровані сутності додаємо метадату з помуткою generated: true
           metadata: { generated: true },
         });
 

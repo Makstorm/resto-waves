@@ -4,10 +4,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import * as _entities from './domain/entities';
+import { ScheduleModule } from '@nestjs/schedule';
 
+//корінний модуль застосунку усі dto та сутності зберігаються у окремій директорії domain для чистоти імпортів у файлах
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
+    ScheduleModule.forRoot(),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (config: ConfigService) => {

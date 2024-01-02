@@ -2,6 +2,7 @@ import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
 import { AbstractEntity } from './abstract.entity';
 import { SizeEntity } from './size.entity';
 
+//Сутність взуття
 @Entity('shoes')
 export class ShoesEntity extends AbstractEntity {
   @Column()

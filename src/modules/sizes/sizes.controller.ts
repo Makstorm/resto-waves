@@ -18,6 +18,8 @@ import {
 } from '@domain';
 import { ApiTags } from '@nestjs/swagger';
 
+//Простий CRUD контролер для роботи з розмірами
+
 @ApiTags('Sizes')
 @Controller('sizes')
 export class SizesController {
