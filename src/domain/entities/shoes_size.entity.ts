@@ -1,4 +1,10 @@
-import { Entity, ManyToOne, PrimaryColumn } from 'typeorm';
+import {
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { ShoesEntity } from './shoe.entity';
 import { SizeEntity } from './size.entity';
 
@@ -11,4 +17,10 @@ export class ShoesSizeEntity {
   @PrimaryColumn('uuid')
   @ManyToOne(() => SizeEntity, (size) => size.id)
   public sizeId: string;
+
+  @CreateDateColumn()
+  public createdAt: Date;
+
+  @UpdateDateColumn()
+  public updatedAt: Date;
 }

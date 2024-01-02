@@ -6,4 +6,5 @@ export interface IShoesService {
   findOne(id: string): Promise<ShoesEntity>;
   update(id: string, dto: UpdateShoeDto): Promise<ShoesEntity>;
   remove(id: string): Promise<ShoesEntity>;
+  compareWithDatabase(): Promise<void>;
 }

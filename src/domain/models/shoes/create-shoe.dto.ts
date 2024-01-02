@@ -17,9 +17,16 @@ export class CreateShoeDto {
   public name: string;
 
   @ApiProperty({
-    type: String,
+    type: Number,
     description: 'Price for product',
     example: randomInt(5000),
   })
   public price: number;
+
+  @ApiProperty({
+    type: String,
+    description: 'Vendor code',
+    example: randomInt(5000),
+  })
+  public vendorCode: number;
 }

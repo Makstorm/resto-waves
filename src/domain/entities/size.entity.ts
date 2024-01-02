@@ -4,9 +4,9 @@ import { ShoesEntity } from './shoe.entity';
 
 @Entity('sizes')
 export class SizeEntity extends AbstractEntity {
-  @Column()
+  @Column({ unique: true })
   public size: number;
 
-  @ManyToMany(() => ShoesEntity, (shoes) => shoes.sizes, { cascade: true })
+  @ManyToMany(() => ShoesEntity, (shoes) => shoes.sizes)
   public shoes: ShoesEntity[];
 }

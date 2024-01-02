@@ -51,4 +51,9 @@ export class ShoesController {
   public async remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.shoesService.remove(id);
   }
+
+  @Post('/compare')
+  public async compareWithDatabase() {
+    await this.shoesService.compareWithDatabase();
+  }
 }

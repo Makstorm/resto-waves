@@ -15,16 +15,18 @@ import {
 export class GoogleService {
   constructor(@Inject(SpreadSheetTag) private spreadsheet: GoogleSpreadsheet) {}
 
-  public async getAllData(): Promise<IGoogleSheetsResponse[]> {
+  public async getAllData(): Promise<IGoogleSheetsResponse> {
     const sheets = this.spreadsheet.sheetsByIndex;
 
     const shoesPromise = sheets.map(async (el) => await this.getData(el));
 
     const shoes = await Promise.all(shoesPromise);
 
-    console.log(shoes[0], shoes[1]);
+    const response = shoes.flat(2);
 
-    return shoes;
+    // console.log(response);
+
+    return response;
   }
 
   public async getData(sheet: GoogleSpreadsheetWorksheet): Promise<IShoes[]> {
@@ -147,7 +149,7 @@ export class GoogleService {
     for (const entity of entities) {
       const { name, price, vendor_code } = entity;
       const convertedItem: IShoesTextData = {
-        name: name || '', // Впевніться, що ви обробляєте випадок, коли значення може бути undefined
+        name: name || '',
         price: Number(price) || 0,
         vendor_code: Number(vendor_code) || 0,
       };

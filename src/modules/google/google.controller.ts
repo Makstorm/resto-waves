@@ -11,6 +11,6 @@ export class GoogleController {
 
   @Get()
   public async getSheet() {
-    await this.service.getAllData();
+    return await this.service.getAllData();
   }
 }

@@ -34,5 +34,6 @@ const GoogleSpreadsheetProvider = {
     GoogleSpreadsheetProvider,
     { provide: GoogleServiceTag, useClass: GoogleService },
   ],
+  exports: [GoogleServiceTag],
 })
 export class GoogleModule {}

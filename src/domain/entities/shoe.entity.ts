@@ -16,7 +16,7 @@ export class ShoesEntity extends AbstractEntity {
   @Column()
   public vendorCode: number;
 
-  @ManyToMany(() => SizeEntity, (size) => size.shoes)
+  @ManyToMany(() => SizeEntity, (size) => size.shoes, { cascade: true })
   @JoinTable({
     name: 'shoes_size',
     joinColumn: {

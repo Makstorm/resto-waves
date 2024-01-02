@@ -28,6 +28,14 @@ export class SizesService implements ISizeService {
     return size;
   }
 
+  public async findOneBySize(size: number): Promise<SizeEntity> {
+    const sizeEntity = this.repository.findOneBy({ size });
+    if (!sizeEntity) {
+      throw new NotFoundException(`Size with size: ${size} does not exist`);
+    }
+    return sizeEntity;
+  }
+
   public async update(id: string, dto: UpdateSizeDto): Promise<SizeEntity> {
     await this.repository.update({ id }, { ...dto });
     return await this.findOne(id);
